@@ -1,0 +1,62 @@
+/* App-specific styles */
+
+/* Ensure smooth scrolling behavior */
+html {
+  scroll-behavior: auto;
+}
+
+/* Pin spacer adjustments */
+.pin-spacer {
+  overflow: visible !important;
+}
+
+/* Section stacking for transitions */
+main > section {
+  position: relative;
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile responsiveness for pinned sections */
+@media (max-width: 768px) {
+  .pin-headline {
+    font-size: clamp(36px, 12vw, 64px) !important;
+  }
+  
+  .pin-image {
+    width: min(70vw, 300px) !important;
+  }
+  
+  .hero-headline {
+    font-size: clamp(48px, 14vw, 80px) !important;
+  }
+  
+  .hero-image img {
+    width: min(70vw, 320px) !important;
+  }
+  
+  .hero-sticker {
+    display: none;
+  }
+  
+  .hero-sticker:nth-child(1),
+  .hero-sticker:nth-child(2) {
+    display: flex;
+    scale: 0.8;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spiral-watermark {
+    animation: none;
+  }
+  
+  .scribble-draw {
+    stroke-dashoffset: 0;
+  }
+}
