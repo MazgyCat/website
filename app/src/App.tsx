@@ -564,6 +564,30 @@ const GallerySection = () => {
 // Section 8: Join the Chaos (Signup)
 const JoinSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+      setIsSubmitted(true);
+      toast.success("APPLICATION FOR MAYHEM RECEIVED.", {
+        description: "YOU'RE NOW ON THE LIST.",
+        className: "bg-[#15171C] border-[#FF2D8F] text-[#F4F6FA] font-mono",
+      });
+    } catch (error) {
+      toast.error("CHAOS FAILED. TRY AGAIN.", {
+        description: "THE SYSTEM RESISTED.",
+        className: "bg-[#15171C] border-[#FF2D8F] text-[#F4F6FA] font-mono",
+      });
+    }
+  };
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -610,21 +634,44 @@ const JoinSection = () => {
             Get Mazgy's latest crimes delivered to your inbox. No apologies included.
           </p>
 
-          <form className="join-animate flex flex-col gap-4 mt-4">
-            <input
-              type="email"
-              placeholder="YOUR EMAIL"
-              className="w-full max-w-md"
-            />
-            <input
-              type="text"
-              placeholder="YOUR NAME"
-              className="w-full max-w-md"
-            />
-            <button type="submit" className="btn-primary w-fit mt-2">
-              SUBSCRIBE
-            </button>
-          </form>
+          {isSubmitted ? (
+            <div className="join-animate bg-[#15171C] border-2 border-[#FF2D8F] p-8 max-w-md">
+              <p className="font-display font-black text-2xl uppercase tracking-wider text-[#F4F6FA] mb-2">SUCCESS</p>
+              <p className="text-[#A9B1C3] font-mono text-sm uppercase">You are now part of the mayhem. Watch your back.</p>
+            </div>
+          ) : (
+            <form 
+              name="join-chaos"
+              onSubmit={handleSubmit}
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              className="join-animate flex flex-col gap-4 mt-4"
+            >
+              {/* Netlify Hidden Fields */}
+              <input type="hidden" name="form-name" value="join-chaos" />
+              <p className="hidden">
+                <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+              </p>
+
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="YOUR EMAIL"
+                className="w-full max-w-md"
+              />
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="YOUR NAME"
+                className="w-full max-w-md"
+              />
+              <button type="submit" className="btn-primary w-fit mt-2">
+                SUBSCRIBE
+              </button>
+            </form>
+          )}
         </div>
 
         {/* Image */}
