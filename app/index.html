@@ -58,6 +58,14 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Hidden form for Netlify detection -->
+    <form name="join-chaos" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="email" name="email" />
+      <input type="text" name="name" />
+      <input type="hidden" name="form-name" value="join-chaos" />
+    </form>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
